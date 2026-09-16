@@ -33,3 +33,6 @@ test.js
 /.cache/
 .clangd
 /src/slic3r/QIDI/
+
+# Node cache stuff
+node-cache
