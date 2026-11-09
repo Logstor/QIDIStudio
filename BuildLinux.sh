@@ -183,10 +183,10 @@ then
     then
         rm -fr build
     fi
-    BUILD_ARGS=""
+    BUILD_ARGS="-DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache"
     if [[ -n "${FOUND_GTK3_DEV}" ]]
     then
-        BUILD_ARGS="-DSLIC3R_GTK=3"
+        BUILD_ARGS="${BUILD_ARGS} -DSLIC3R_GTK=3"
     fi
     if [[ -n "${BUILD_DEBUG}" ]]
     then

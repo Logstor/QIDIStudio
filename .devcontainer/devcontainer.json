@@ -13,6 +13,8 @@
   "containerEnv": {
     "QDT_RELEASE_TO_PUBLIC": "0",
     "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+    "CMAKE_C_COMPILER_LAUNCHER": "ccache",
+    "CMAKE_CXX_COMPILER_LAUNCHER": "ccache",
     "SSL_CERT_FILE": "/etc/ssl/certs/ca-certificates.crt"
   },
   "customizations": {
