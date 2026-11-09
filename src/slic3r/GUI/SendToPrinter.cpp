@@ -14,6 +14,7 @@
 #include "Widgets/StaticBox.hpp"
 #include "ConnectPrinter.hpp"
 
+#include <wx/gtk/colour.h>
 #include <wx/progdlg.h>
 #include <wx/clipbrd.h>
 #include <wx/dcgraph.h>
@@ -317,6 +318,7 @@ SendToPrinterDialog::SendToPrinterDialog(Plater *plater)
     auto timeimg = new wxStaticBitmap(m_scrollable_region, wxID_ANY, create_scaled_bitmap("print-time", this, 18), wxDefaultPosition, wxSize(FromDIP(18), FromDIP(18)), 0);
     m_sizer_basic_weight->Add(timeimg, 1, wxEXPAND | wxALL, FromDIP(5));
     m_stext_time = new wxStaticText(m_scrollable_region, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT);
+    m_stext_time->SetForegroundColour(StateColor::darkModeColorFor(wxColour("#6B6B6B")));
     m_sizer_basic_weight->Add(m_stext_time, 0, wxALL, FromDIP(5));
     m_sizer_basic->Add(m_sizer_basic_weight, 0, wxALIGN_CENTER, 0);
     m_sizer_basic->Add(0, 0, 0, wxEXPAND | wxLEFT | wxRIGHT, FromDIP(30));
@@ -324,6 +326,7 @@ SendToPrinterDialog::SendToPrinterDialog(Plater *plater)
     auto weightimg = new wxStaticBitmap(m_scrollable_region, wxID_ANY, create_scaled_bitmap("print-weight", this, 18), wxDefaultPosition, wxSize(FromDIP(18), FromDIP(18)), 0);
     m_sizer_basic_time->Add(weightimg, 1, wxEXPAND | wxALL, FromDIP(5));
     m_stext_weight = new wxStaticText(m_scrollable_region, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT);
+    m_stext_weight->SetForegroundColour(StateColor::darkModeColorFor(wxColour("#6B6B6B")));
     m_sizer_basic_time->Add(m_stext_weight, 0, wxALL, FromDIP(5));
     m_sizer_basic->Add(m_sizer_basic_time, 0, wxALIGN_CENTER, 0);
 
@@ -387,7 +390,7 @@ SendToPrinterDialog::SendToPrinterDialog(Plater *plater)
                     event.SetEventObject(m_comboBox_printer);
                     event.SetString(m_comboBox_printer->GetValue());
                     m_comboBox_printer->GetEventHandler()->ProcessEvent(event);
-                }   
+                }
             }
         }
         else
@@ -406,7 +409,7 @@ SendToPrinterDialog::SendToPrinterDialog(Plater *plater)
                     m_comboBox_printer->GetEventHandler()->ProcessEvent(event);
                 }
             }
-#endif 
+#endif
         }
         // y27
         if (m_comboBox_printer->GetValue().empty())
@@ -1014,7 +1017,7 @@ void SendToPrinterDialog::on_ok(wxCommandEvent &event)
                 break;
             }
         }
-#endif 
+#endif
     }
 
     //y58
@@ -1036,7 +1039,7 @@ void SendToPrinterDialog::on_ok(wxCommandEvent &event)
         wxCommandEvent* event = new wxCommandEvent(EVT_PRINT_JOB_CANCEL);
         wxQueueEvent(this, event);
         });
-    
+
     if (m_is_canceled) {
         BOOST_LOG_TRIVIAL(info) << "send_job: m_is_canceled";
         //m_status_bar->set_status_text(task_canceled_text);
@@ -2353,7 +2356,7 @@ void SendToPrinterDialog::GetConnection()
      {
          m_url_timer->Stop();
      }
-    
+
      m_url_timer.reset(new wxTimer());
      m_url_timer->SetOwner(this);
      this->Bind(
