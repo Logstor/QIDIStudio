@@ -35,4 +35,6 @@ test.js
 /src/slic3r/QIDI/
 /deps/pgLibConnect
 .workbuddy
+
+# Node cache stuff
 node-cache
