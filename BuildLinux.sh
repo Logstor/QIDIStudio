@@ -17,7 +17,7 @@ function check_available_memory_and_disk() {
         exit 2
     fi
 
-    if [[ ${FREE_DISK_KB} -le ${MIN_DISK_KB} ]]; then 
+    if [[ ${FREE_DISK_KB} -le ${MIN_DISK_KB} ]]; then
         echo -e "\nERROR: QIDI Studio Builder requires at least $(echo $MIN_DISK_KB |awk '{ printf "%.1fG\n", $1/1024/1024; }') (systen has only $(echo ${FREE_DISK_KB} | awk '{ printf "%.1fG\n", $1/1024/1024; }') disk free)"
         echo && df -h . && echo
         exit 1
@@ -86,6 +86,7 @@ if [ "${BUILD_DEBUG}" = "1" ]; then
     fi
 fi
 INTERNAL_TESTING=${INTERNAL_TESTING:-0}
+QDT_RELEASE_TO_PUBLIC=${QDT_RELEASE_TO_PUBLIC:-1}
 
 if [ ${OPTIND} -eq 1 ]
 then
@@ -101,7 +102,7 @@ OSLIKE=$(awk -F= '/^ID_LIKE=/ {print $2}' /etc/os-release | tr -d '"')
 # Iterate over a list of candidate distribution targets, first match is used
 for CANDIDATE in ${DISTRIBUTION} ${OSLIKE}; do
     if [ -f ./linux.d/${CANDIDATE} ]
-    then 
+    then
         TARGET_DISTRO="${CANDIDATE}"
         break
     fi
@@ -189,9 +190,9 @@ then
     fi
     if [[ -n "${BUILD_DEBUG}" ]]
     then
-        BUILD_ARGS="${BUILD_ARGS} -DCMAKE_BUILD_TYPE=Debug -DQDT_INTERNAL_TESTING=${INTERNAL_TESTING}"
+        BUILD_ARGS="${BUILD_ARGS} -DCMAKE_BUILD_TYPE=Debug -DQDT_RELEASE_TO_PUBLIC=${QDT_RELEASE_TO_PUBLIC} -DQDT_INTERNAL_TESTING=${INTERNAL_TESTING}"
     else
-        BUILD_ARGS="${BUILD_ARGS} -DQDT_RELEASE_TO_PUBLIC=1 -DQDT_INTERNAL_TESTING=${INTERNAL_TESTING}"
+        BUILD_ARGS="${BUILD_ARGS} -DQDT_RELEASE_TO_PUBLIC=${QDT_RELEASE_TO_PUBLIC} -DQDT_INTERNAL_TESTING=${INTERNAL_TESTING}"
     fi
     echo -e "cmake -S . -B build -G Ninja -DCMAKE_PREFIX_PATH="${PWD}/deps/build/destdir/usr/local" -DSLIC3R_STATIC=1 ${BUILD_ARGS}"
     cmake -S . -B build -G Ninja \
